@@ -8,18 +8,26 @@ import (
 	"strings"
 
 	yaml "gopkg.in/yaml.v2"
+
+	"github.com/FideTech/yaus/models"
 )
 
 //Config contains a reference to the configuration
 var Config *config
 
 type config struct {
-	System systemConfig `yaml:"system" json:"system"`
+	System    systemConfig    `yaml:"system" json:"system"`
+	Hardcoded hardcodedConfig `yaml:"hardcoded" json:"hardcoded"`
 }
 
 type systemConfig struct {
 	Port    int    `yaml:"port" json:"port"`
 	BaseURL string `yaml:"baseUrl" json:"baseUrl"`
+}
+
+type hardcodedConfig struct {
+	Error []models.ShortLink `yaml:"error" json:"error"`
+	Info  []models.ShortLink `yaml:"info" json:"info"`
 }
 
 func (c *config) load(filePath string) error {

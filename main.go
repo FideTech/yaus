@@ -19,4 +19,5 @@ func main() {
 	}
 
 	log.Printf("base url of %s", config.Config.System.BaseURL)
+	log.Printf("loaded %d error short links and %d info short links", len(config.Config.Hardcoded.Error), len(config.Config.Hardcoded.Info))
 }
