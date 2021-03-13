@@ -5,10 +5,11 @@ import (
 	"log"
 
 	"github.com/FideTech/yaus/config"
+	"github.com/FideTech/yaus/core"
 )
 
 func main() {
-	log.Println("welcome to yet another url shortener (yaus)")
+	log.Printf("welcome to yet another url shortener (yaus) v%s\n", core.GetVersion())
 
 	configFile := flag.String("configFile", "config.yaml", "Config File full path. Defaults to current folder")
 
