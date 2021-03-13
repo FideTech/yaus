@@ -28,6 +28,9 @@ type systemConfig struct {
 type hardcodedConfig struct {
 	Error []models.ShortLink `yaml:"error" json:"error"`
 	Info  []models.ShortLink `yaml:"info" json:"info"`
+
+	Errors map[string]models.ShortLink `yaml:"-" json:"-"`
+	Infos  map[string]models.ShortLink `yaml:"-" json:"-"`
 }
 
 func (c *config) load(filePath string) error {
@@ -38,6 +41,16 @@ func (c *config) load(filePath string) error {
 
 	if err := yaml.Unmarshal(yamlFile, c); err != nil {
 		return err
+	}
+
+	c.Hardcoded.Errors = map[string]models.ShortLink{}
+	for _, e := range c.Hardcoded.Error {
+		c.Hardcoded.Errors[e.Key] = e
+	}
+
+	c.Hardcoded.Infos = map[string]models.ShortLink{}
+	for _, i := range c.Hardcoded.Info {
+		c.Hardcoded.Infos[i.Key] = i
 	}
 
 	return nil
@@ -56,7 +69,7 @@ func (c *config) verifySettings() error {
 }
 
 //HTTPHandler outputs the config as a json file
-func (c *config) HTTPHandler(w http.ResponseWriter) {
+func (c *config) HTTPHandler(w http.ResponseWriter, r *http.Request) {
 	js, err := json.Marshal(c)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
