@@ -21,7 +21,7 @@ func Start() error {
 	mux := http.NewServeMux()
 
 	mux.Handle("/i/", middleware.NewParsedLink(controllers.InfoHandler, "i"))
-	mux.Handle("/e/", middleware.NewParsedLink(controllers.ErrorHandler, "e"))
+	mux.Handle("/e/", middleware.NewParsedLink(controllers.ErrorLinkHandler, "e"))
 
 	server = &http.Server{
 		Addr:    fmt.Sprintf(":%d", config.Config.System.Port),
