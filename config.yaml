@@ -1,0 +1,14 @@
+system:
+  port: 4568
+  baseUrl: 'http://localhost:4568'
+hardcoded:
+  error:
+  - key: '999'
+    url: https://github.com/FideTech/yaus/wiki
+  - key: '888'
+    url: https://github.com/FideTech/yaus/wiki/888
+  info:
+  - key: google
+    url: https://google.com
+  - key: duck
+    url: https://duckduckgo.com
