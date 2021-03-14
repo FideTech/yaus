@@ -3,6 +3,10 @@ system:
     port: 4568
   database:
     path: yaus.db
+  api:
+    keys:
+    - 'local-api-key-REPLACE_ME'
+    - 'another-key-REPLACE_ME'
 hardcoded:
   error:
   - key: '999'

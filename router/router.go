@@ -22,6 +22,8 @@ func Start() error {
 
 	mux.Handle("/i/", middleware.NewParsedLink(controllers.InfoHandler, "i"))
 	mux.Handle("/e/", middleware.NewParsedLink(controllers.ErrorLinkHandler, "e"))
+	mux.Handle("/d/", middleware.NewParsedLink(controllers.DynamicLinkHandler, "d"))
+	mux.Handle("/api/", middleware.NewAPIAuth(controllers.ApiHandler))
 
 	server = &http.Server{
 		Addr:    fmt.Sprintf(":%d", config.Config.System.Router.Port),

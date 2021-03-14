@@ -24,6 +24,7 @@ type config struct {
 type systemConfig struct {
 	Router   routerConfig   `yaml:"router" json:"router"`
 	Database databaseConfig `yaml:"database" json:"database"`
+	API      apiConfig      `yaml:"api" json:"api"`
 }
 
 type routerConfig struct {
@@ -32,6 +33,10 @@ type routerConfig struct {
 
 type databaseConfig struct {
 	Path string `yaml:"path" json:"path"`
+}
+
+type apiConfig struct {
+	Keys []string `yaml:"keys" json:"-"`
 }
 
 type hardcodedConfig struct {
