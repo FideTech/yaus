@@ -24,7 +24,7 @@ func Start() error {
 	mux.Handle("/e/", middleware.NewParsedLink(controllers.ErrorLinkHandler, "e"))
 
 	server = &http.Server{
-		Addr:    fmt.Sprintf(":%d", config.Config.System.Port),
+		Addr:    fmt.Sprintf(":%d", config.Config.System.Router.Port),
 		Handler: middleware.NewLogger(middleware.NewCors(mux)),
 	}
 

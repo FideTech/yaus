@@ -1,6 +1,8 @@
 system:
-  port: 4568
-  baseUrl: 'http://localhost:4568'
+  router:
+    port: 4568
+  database:
+    path: yaus.db
 hardcoded:
   error:
   - key: '999'
