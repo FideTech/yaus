@@ -1,6 +1,8 @@
 package core
 
 import (
+	"github.com/teris-io/shortid"
+
 	"github.com/FideTech/yaus/models"
 )
 
@@ -13,5 +15,14 @@ func GetDynamicShortLinkByKey(key string) (models.ShortLink, error) {
 }
 
 func CreateDynamicShortLink(shortLink *models.ShortLink) error {
+	if shortLink.Key == "" {
+		key, err := shortid.Generate()
+		if err != nil {
+			return err
+		}
+
+		shortLink.Key = key
+	}
+
 	return _dataStorage.ShortLinks().Create(shortLink)
 }
