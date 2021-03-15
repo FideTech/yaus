@@ -109,3 +109,28 @@ func (sl *ShortLinksStore) Create(shortLink *models.ShortLink) error {
 		return b.Put(key, val)
 	})
 }
+
+func (sl *ShortLinksStore) Update(shortLink *models.ShortLink) error {
+	return sl.store.DB.Update(func(tx *bolt.Tx) error {
+		b := tx.Bucket(sl.bucket)
+
+		if b == nil {
+			return storage.ErrBucketNotFound
+		}
+
+		key := []byte(shortLink.Key)
+
+		if result := b.Get(key); result == nil || len(result) == 0 {
+			return storage.ErrNotFound
+		}
+
+		shortLink.UpdatedAt = time.Now()
+
+		val, err := json.Marshal(shortLink)
+		if err != nil {
+			return err
+		}
+
+		return b.Put(key, val)
+	})
+}

@@ -26,3 +26,14 @@ func CreateDynamicShortLink(shortLink *models.ShortLink) error {
 
 	return _dataStorage.ShortLinks().Create(shortLink)
 }
+
+func AddRedirectToDynamicShortLink(key string) error {
+	s, err := _dataStorage.ShortLinks().GetByKey(key)
+	if err != nil {
+		return err
+	}
+
+	s.Redirects++
+
+	return _dataStorage.ShortLinks().Update(&s)
+}

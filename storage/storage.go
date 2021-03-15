@@ -21,6 +21,7 @@ type ShortLinkStore interface {
 	GetByKey(key string) (models.ShortLink, error)
 
 	Create(shortLink *models.ShortLink) error
+	Update(shortLink *models.ShortLink) error
 
 	EnsureBucketExists() error
 }
