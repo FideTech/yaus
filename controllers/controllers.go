@@ -7,17 +7,17 @@ import (
 )
 
 func sendJSON(w http.ResponseWriter, data interface{}) {
-	jsData, err := json.Marshal(data)
+	marshalled, err := json.Marshal(data)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	w.Write(jsData)
+	w.Write(marshalled)
 }
 
-func toJSON(r *http.Request, v interface{}) error {
+func bindJSON(r *http.Request, v interface{}) error {
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		return err

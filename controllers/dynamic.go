@@ -14,5 +14,5 @@ func DynamicLinkHandler(w http.ResponseWriter, r *http.Request, value string) {
 		return
 	}
 
-	http.Redirect(w, r, link.URL, http.StatusPermanentRedirect)
+	http.Redirect(w, r, link.URL, http.StatusTemporaryRedirect)
 }

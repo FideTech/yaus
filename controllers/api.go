@@ -38,7 +38,7 @@ func shortLinksHandler(w http.ResponseWriter, r *http.Request, path string) {
 		return
 	case http.MethodPost:
 		var shortLink models.ShortLink
-		if err := toJSON(r, &shortLink); err != nil {
+		if err := bindJSON(r, &shortLink); err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
 		}
