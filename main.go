@@ -25,8 +25,16 @@ func main() {
 		panic(err)
 	}
 
-	log.Printf("base url of %s", config.Config.System.BaseURL)
-	log.Printf("loaded %d error short links and %d info short links", len(config.Config.Hardcoded.Error), len(config.Config.Hardcoded.Info))
+	if err := core.Start(); err != nil {
+		panic(err)
+	}
+
+	sl, err := core.GetAllDynamicShortLinks()
+	if err != nil {
+		panic(err)
+	}
+
+	log.Printf("loaded %d error, %d info short links and %d dynamic short links", len(config.Config.Hardcoded.Error), len(config.Config.Hardcoded.Info), len(sl))
 
 	go func() {
 		if err := router.Start(); err != nil {
@@ -44,7 +52,11 @@ func main() {
 	defer cancel()
 
 	if err := router.Shutdown(ctx); err != nil {
-		log.Fatal("Router forced to shutdown:", err)
+		log.Fatal("Router forced to shutdown:", err.Error())
+	}
+
+	if err := core.Shutdown(); err != nil {
+		log.Fatal("failed to shutdown the core:", err.Error())
 	}
 
 	log.Println("goodbye. See you soon™️")

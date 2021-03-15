@@ -2,12 +2,10 @@ package config
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
-	"strings"
 
 	yaml "gopkg.in/yaml.v2"
 
@@ -24,8 +22,21 @@ type config struct {
 }
 
 type systemConfig struct {
-	Port    int    `yaml:"port" json:"port"`
-	BaseURL string `yaml:"baseUrl" json:"baseUrl"`
+	Router   routerConfig   `yaml:"router" json:"router"`
+	Database databaseConfig `yaml:"database" json:"database"`
+	API      apiConfig      `yaml:"api" json:"api"`
+}
+
+type routerConfig struct {
+	Port int `yaml:"port" json:"port"`
+}
+
+type databaseConfig struct {
+	Path string `yaml:"path" json:"path"`
+}
+
+type apiConfig struct {
+	Keys []string `yaml:"keys" json:"-"`
 }
 
 type hardcodedConfig struct {
@@ -106,13 +117,8 @@ func (c *config) loadHardcodedValues() error {
 }
 
 func (c *config) verifySettings() error {
-	if c.System.BaseURL == "" {
-		return errors.New("invalid system.baseUrl, can not be empty")
-	}
-
-	if strings.HasSuffix(c.System.BaseURL, "/") {
-		return errors.New("system.baseUrl must NOT end with '/'")
-	}
+	//TODO: check if the router port is open and usable
+	//TODO: check if the database path is accessible and writable
 
 	return nil
 }
