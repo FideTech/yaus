@@ -16,7 +16,7 @@ WORKDIR /root/
 
 RUN apk --no-cache add ca-certificates
 
-COPY --from=backend /go/src/github.com/github.com/FideTech/yaus/yaus .
+COPY --from=backend /go/src/github.com/FideTech/yaus .
 
 ENV GIN_MODE=release
 
