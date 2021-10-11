@@ -1,4 +1,6 @@
-FROM golang:1.16.2 as backend
+FROM golang:1.16.2-alpine as build
+
+RUN apk add --no-cache ca-certificates git
 
 WORKDIR /go/src/github.com/FideTech/yaus
 
@@ -8,15 +10,15 @@ RUN go mod vendor
 
 RUN GIT_COMMIT=$(git log --pretty=format:"%h" -n 1) && \
     GOOS=linux && \
-    go build -mod=vendor -ldflags "-X github.com/FideTech/yaus/core.Commit=$GIT_COMMIT" -o yaus
+    CGO_ENABLED=0 \
+    go build -ldflags "-X github.com/FideTech/yaus/core.Commit=$GIT_COMMIT" -o yaus
 
-FROM alpine:latest
+FROM scratch as runtime
 
 WORKDIR /root/
 
-RUN apk --no-cache add ca-certificates
-
-COPY --from=backend /go/src/github.com/FideTech/yaus .
+COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+COPY --from=build /go/src/github.com/FideTech/yaus/yaus /root/yaus
 
 ENV GIN_MODE=release
 
